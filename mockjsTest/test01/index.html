@@ -113,8 +113,8 @@
 			</div>
 		</div>
 	</div>
-	<script src="zepto.min.js"></script>
-	<script src="mock-min.js"></script>
+	<script src="../zepto.min.js"></script>
+	<script src="../mock.js"></script>
 	<script>
 		window.onload=function(){
 			function g(id){
@@ -138,12 +138,17 @@
 
 			/*mock.js模拟数据输出*/
 			Mock.mock('http://www.baidu.com',{
-				'名字|1-2':'@name',
+				'userName|1-2':'@name',
 				'年龄|20-30':22,
 				'电话号码':/^[1][358][0-9]{9}$/,
 				'密码':''
 			});
+			var stop=false;
 			$('#tab1').click(function(){
+				stop=!stop;
+			})
+			setInterval(function(){
+				if(!stop)
 				$.ajax({
 					type:'POST',
 					url:'http://www.baidu.com',
@@ -157,7 +162,8 @@
 						alert('Ajax error!');
 					}
 				});
-			})
+			},1500)
+					
 		}
 	</script>
 </body>
