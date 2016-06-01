@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>选项卡</title>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+		html,body{
+			height:100%;
+			font-family: "Microsoft Yahei";
+			font-size:16px;
+		}
+		ul{
+			float:left;
+			height:263px;
+			width:60px;
+			margin:0 auto;
+			text-align:center;
+			overflow:hidden;
+		}
+		ul li{
+			height:85px;
+			list-style: none;
+			margin-right:1px;
+			margin-bottom:2px;
+			color:#fff;
+			cursor:pointer;
+			transition:opacity 2s,margin-left 0.5s;
+			display:flex;
+			display:-webkit-flex;
+			-webkit-align-items:center;
+			align-items:center;
+			-webkit-justify-content:center;
+			justify-content:center;
+			font-size:0.6rem;
+			border-top-left-radius:6px;
+			border-bottom-left-radius:6px;
+		}
+		ul li:hover{
+			margin-left:20px;
+			opacity:0.5;
+		}
+		li:first-child{
+			background-color:#5CADAD;
+		}
+		li:nth-child(2){
+			background-color:#81C0C0;
+		}
+		li:last-child{
+			background-color:#A3D1D1;
+		}
+		.box{
+			width:500px;
+			height:263px;
+			margin:40px auto;
+			position:relative;
+			overflow:hidden;
+/*			display:-webkit-flex;
+			display:flex;
+			-webkit-align-items:center;
+			-ms-align-items:center;
+			align-items:center;
+			justify-content:center;*/
+		}
+		.content{
+			float:left;
+			overflow:hidden;
+			width:85%;
+			border:3px solid #81C0C0;
+			border-top-right-radius: 6px;
+			border-bottom-right-radius:6px;
+			box-shadow:2px 2px 4px #A3D1D1;
+		}
+		.tab{
+			width:100%;
+			height:245px;
+			padding:5px;
+		}
+		.tab>p{
+			display:block;
+			-webkit-user-select:none;
+			overflow:auto;
+			text-overflow:ellipsis;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="tabTit">
+			<ul>
+				<li id="t1">产品</li>
+				<li id="t2">设计</li>
+				<li id="t3">数据库</li>
+			</ul>
+		</div>
+		<div class="content" id="con">
+			<div class="tab tab1" id="tab1" >
+				<h4>新闻快报</h4>
+				<p id="news_in">这是一段新闻</p>
+			</div>
+			<div class="tab tab2" id="tab2" style="display:none">
+				<h4>新闻播报</h4>
+				<p id="news_out">看新闻，读朝文</p>
+			</div>
+			<div class="tab tab3" id="tab3" style="display:none">
+				<h4>阅读人生，只想朝文</h4>
+				<p id="news_fav">Failthful to orderlize</p>
+			</div>
+		</div>
+	</div>
+	<script src="zepto.min.js"></script>
+	<script src="mock-min.js"></script>
+	<script>
+		window.onload=function(){
+			function g(id){
+				return document.getElementById(id);
+			}
+			/*选项卡 start*/
+			var tab=document.getElementsByTagName('li');
+			var con=document.getElementById('con');
+			var ii=con.getElementsByTagName('div');
+			for(var k=0;k<tab.length;k++){
+				tab[k].index=k;
+				tab[k].onmouseover=function(){
+					var that=this.index;
+					 for(var j=0;j<tab.length;j++){
+					 	ii[j].style.display="none";
+						ii[that].style.display="block";
+					 }
+				}
+			}
+			/*选项卡 end*/
+
+			/*mock.js模拟数据输出*/
+			Mock.mock('http://www.baidu.com',{
+				'名字|1-2':'@name',
+				'年龄|20-30':22,
+				'电话号码':/^[1][358][0-9]{9}$/,
+				'密码':''
+			});
+			$('#tab1').click(function(){
+				$.ajax({
+					type:'POST',
+					url:'http://www.baidu.com',
+					dataType:'json',
+					data:{name:'Zepto.js'},
+					success:function(data){
+						var info=JSON.stringify(data);
+						$('#tab1').text(info);
+					},
+					error:function(xhr,type){
+						alert('Ajax error!');
+					}
+				});
+			})
+		}
+	</script>
+</body>
+</html>
