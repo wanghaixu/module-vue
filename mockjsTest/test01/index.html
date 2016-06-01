@@ -90,61 +90,23 @@
 	</style>
 </head>
 <body>
-	<div class="box">
-		<div class="tabTit">
-			<ul>
-				<li id="t1">产品</li>
-				<li id="t2">设计</li>
-				<li id="t3">数据库</li>
-			</ul>
-		</div>
-		<div class="content" id="con">
-			<div class="tab tab1" id="tab1" >
-				<h4>新闻快报</h4>
-				<p id="news_in">这是一段新闻</p>
-			</div>
-			<div class="tab tab2" id="tab2" style="display:none">
-				<h4>新闻播报</h4>
-				<p id="news_out">看新闻，读朝文</p>
-			</div>
-			<div class="tab tab3" id="tab3" style="display:none">
-				<h4>阅读人生，只想朝文</h4>
-				<p id="news_fav">Failthful to orderlize</p>
-			</div>
-		</div>
-	</div>
 	<script src="../zepto.min.js"></script>
 	<script src="../mock.js"></script>
 	<script>
 		window.onload=function(){
-			function g(id){
-				return document.getElementById(id);
-			}
-			/*选项卡 start*/
-			var tab=document.getElementsByTagName('li');
-			var con=document.getElementById('con');
-			var ii=con.getElementsByTagName('div');
-			for(var k=0;k<tab.length;k++){
-				tab[k].index=k;
-				tab[k].onmouseover=function(){
-					var that=this.index;
-					 for(var j=0;j<tab.length;j++){
-					 	ii[j].style.display="none";
-						ii[that].style.display="block";
-					 }
-				}
-			}
-			/*选项卡 end*/
-
 			/*mock.js模拟数据输出*/
 			Mock.mock('http://www.baidu.com',{
-				'userName|1-2':'@name',
-				'年龄|20-30':22,
-				'电话号码':/^[1][358][0-9]{9}$/,
-				'密码':''
+					'status':'1',
+					'info|0-20':[
+						{
+							'od_id|1-100':1,
+							'od_item_no|4-12':"A",
+							'od_main_img':Mock.Random.image('200x100', '#ffcc33', '#FFF', 'png', '!'),
+						}
+					]
 			});
 			var stop=false;
-			$('#tab1').click(function(){
+			$('body').click(function(){
 				stop=!stop;
 			})
 			setInterval(function(){
@@ -156,7 +118,7 @@
 					data:{name:'Zepto.js'},
 					success:function(data){
 						var info=JSON.stringify(data);
-						$('#tab1').text(info);
+						$('body').html(info);
 					},
 					error:function(xhr,type){
 						alert('Ajax error!');
