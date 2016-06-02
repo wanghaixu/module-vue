@@ -90,46 +90,40 @@
 	</style>
 </head>
 <body>
-	<script src="../zepto.min.js"></script>
-	<script src="../mock.js"></script>
+<script src="../RAP_Mockjs.js" id="RAP_Mockjs" data-projectId="4285"></script>
 	<script>
+		var postDataUrlHead='http://fz.ttdingwei.com/';
+		var postDataUrlBody='api/Public/login';
+		postDataUrlHead='';
+		var postDataUrl=postDataUrlHead+postDataUrlBody;
 		window.onload=function(){
-			/*mock.js模拟数据输出*/
-			Mock.mock('http://www.baidu.com',{
-					"ret|+1":[
-						{
-							status:1,
-							info:{
-								'userName': /1[0-9]{10}/,
-								'userPassword|6-10':'a',
-								'language|0-1':0,
-							}
-						},
-						{
-							status:0,
-							info:"失败！"
-						}
-					]
-			});
 			var stop=false;
 			$('body').click(function(){
 				stop=!stop;
 			})
+			var i=0;
 			setInterval(function(){
-				if(!stop)
-				$.ajax({
-					type:'POST',
-					url:'http://www.baidu.com',
-					dataType:'json',
-					data:{name:'Zepto.js'},
-					success:function(data){
-						var info=JSON.stringify(data);
-						$('body').html(info);
-					},
-					error:function(xhr,type){
-						alert('Ajax error!');
-					}
-				});
+				if(!stop){
+					i++;
+					var postData={
+						id:'1'
+					};
+					$.ajax({
+						type:'POST',
+						url:postDataUrl,
+						dataType:'json',
+						data:postData,
+						success:function(data){
+							var info=JSON.stringify(data);
+							$('body').html(info);
+							$('body').append("<div>"+i+"</div>")
+						},
+						error:function(xhr,type){
+							alert('Ajax error!');
+						}
+					});
+				}
+				
 			},1500)
 					
 		}
