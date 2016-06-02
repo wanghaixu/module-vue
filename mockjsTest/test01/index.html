@@ -96,12 +96,18 @@
 		window.onload=function(){
 			/*mock.js模拟数据输出*/
 			Mock.mock('http://www.baidu.com',{
-					'status':'1',
-					'info|0-20':[
+					"ret|+1":[
 						{
-							'od_id|1-100':1,
-							'od_item_no|4-12':"A",
-							'od_main_img':Mock.Random.image('200x100', '#ffcc33', '#FFF', 'png', '!'),
+							status:1,
+							info:{
+								'userName': /1[0-9]{10}/,
+								'userPassword|6-10':'a',
+								'language|0-1':0,
+							}
+						},
+						{
+							status:0,
+							info:"失败！"
 						}
 					]
 			});
