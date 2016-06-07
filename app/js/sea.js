@@ -25,6 +25,8 @@ seajs.config({
 		'hubModle': 'Modle/hubModle',
 	}
 });
+//ajaxURl
+var postDataUrlHead='http://fz.ttdingwei.com/';
 seajs.use('RAP_Mockjs',function(){
 	starMockData(4285);
 });

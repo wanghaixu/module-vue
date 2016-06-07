@@ -1,4 +1,5 @@
-
+//请求头隐藏
+postDataUrlHead="";
 /*jQuery-开始*/
 /*!
  * jQuery JavaScript Library v1.11.0

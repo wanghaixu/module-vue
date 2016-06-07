@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name='viewport' content="initial-scale=1,maximum-scale=1">
+	<title>vue的测试用例</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css">
+	<link rel="stylesheet" type="text/css" href="../css/common.css">
+	<link rel="stylesheet" type="text/css" href="../css/ui-base.css">
+	<style type="text/css">
+		html,body{
+			min-height: 100%;
+			min-width: 100%;
+			background-color: #eee;
+		}
+		.module-list-1 .item:last-child .line-b::after{
+			border:none;
+		}
+		.module-list-1 .item:active{
+			background-color: #eee;
+		}
+		.module-list-1 .tip{
+			position: absolute;
+			top:15px;
+			left: -9px;
+			width: 5px;
+			height: 5px;
+			border-radius: 50%;
+			background-color: red;
+
+		}
+	</style>
+</head>
+<body>
+	<div class="ub ub-ver bg-wh list-1 module-list-1">
+		<div class="ub ub-ver bg-wh padl-15 item" v-for="item in info" data-id={{item.ms_id}} v-on:click="greet">
+			<div class="ub ub-ver line-b">
+				<div class="ub ub-ac ub-pj mart-10">
+					<div class="ub-f1 ut-s tx-16 tx-bla">{{item.ms_title}}</div>
+					<div class="tx-12 tx-bla-3 marr-15">{{item.ms_send_time}}</div>
+				</div>
+				<div class="tx-14 tx-bla-2 tx-break tx-moreclip-2 mart-5 marb-10 marr-15">{{item.ms_content}}</div>
+				<div class="tip" v-bind:class="{'uhide':item.ms_unread}"></div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src='../js/sea.js'></script>
+<script type="text/javascript">
+	var dependJS=['zepto.min','vue','../lib/SUI/js/sm.min','../lib/SUI/js/sm-city-picker','../lib/SUI/js/sm-extend.min'];
+	seajs.use(dependJS,function(){
+		var vue=new Vue({
+			el:".module-list-1",
+			data:{
+				info:""
+			},
+			methods:{
+				findFatherNode:function(child,father){
+					if(!father&&!child)return;
+					var result=$(child);
+					while(!$(result).hasClass(father)){
+						result=$(result).parent();
+					}
+					return result;
+				},
+				greet:function(event){
+					var tag=event.target;
+					var item=this.findFatherNode(tag,'item');
+					var itemId=$(item).attr('data-id');
+				}
+			}
+		});
+		var postDataUrlBody='api/personal/message_list';
+		var postDataUrl=postDataUrlHead+postDataUrlBody;
+		window.onload=function(){
+			var stop=false;
+			$(window).click(function(){
+				stop=!stop;
+			})
+			var i=0;
+			setInterval(function(){
+				if(!stop){
+					i++;
+					var postData={
+						language:1,
+						userName:'asd',
+						userPassword:'123',
+						pageNum:1
+					};
+					$.ajax({
+						type:'POST',
+						url:postDataUrl,
+						dataType:'json',
+						data:postData,
+						success:function(data){
+							if(data.status=='1'){
+								vue._data.info=data.info;
+							}
+						},
+						error:function(xhr,type){
+							alert('Ajax error!');
+						}
+					});
+				}
+				
+			},2000)	
+		}
+	})
+</script>
+</html>

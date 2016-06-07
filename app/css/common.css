@@ -234,6 +234,68 @@
 .line-h80{
 	line-height: 80px
 }
+/*line类 start 用于添加0.5px边框 需要按方向使用*/
+/*上边框 命名取自line-top 取名方式下同*/
+.line-t:before{
+	content: '';
+	position: absolute;
+	height: 1px;
+	width: 100%;
+	border-bottom: 1px solid #e5e5e5;    
+	top: 0; 
+	left:0;
+	right: 0;
+	transform-origin: 0 0;
+	transform: scaleY(0.5);
+	box-sizing: border-box;
+	-webkit-transform-origin: 0 0;
+	-webkit-transform: scaleY(0.5);
+	-webkit-box-sizing: border-box;
+}
+/*左边框*/
+.line-l:before{
+	content: '';
+	position: absolute;
+	height: 100%;
+	width: 1px;
+	border-left:1px solid #e5e5e5;    
+	top: 0; 
+	left:0;
+	bottom:0;
+	-webkit-transform-origin: 0 0;
+	-webkit-transform: scaleX(0.5);
+	-webkit-box-sizing: border-box;
+}
+/*下边框*/
+.line-b:after{
+	content: '';
+	position: absolute;
+	height: 1px;
+	width: 100%;
+	border-bottom: 1px solid #e5e5e5;
+	left: 0;
+	bottom:0.5px;
+	right: auto;
+	top: auto;
+	-webkit-transform-origin: 0 0;
+	-webkit-transform: scaleY(0.5);
+	-webkit-box-sizing: border-box;
+}
+/*右边框*/
+.line-r:after{
+	content: '';
+	position: absolute;
+	height: 100%;
+	width: 1px;
+	border-right:1px solid #e5e5e5;    
+	top: 0; 
+	right:-1px;
+	bottom:0;
+	-webkit-transform-origin: 0 0;
+	-webkit-transform: scaleX(0.5);
+	-webkit-box-sizing: border-box;
+}
+/*line类 end*/
 /* 圆角 */
 .uc-3{
 	border-radius:3px;
@@ -523,6 +585,19 @@
 /* 字体加粗 */
 .tx-bd{
 	font-weight:bold;
+}
+/*文字换行*/
+.tx-break{
+	word-break:break-all;
+}
+/*3行文本，超出省略号*/
+.tx-moreclip-2{
+	display: -webkit-box;
+	text-overflow: ellipsis;
+	overflow : hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
 }
 /* 
  *外边距定义 
