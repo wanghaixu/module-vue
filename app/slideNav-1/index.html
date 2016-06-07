@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name='viewport' content="initial-scale=1,maximum-scale=1">
+	<title>vue的测试用例</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css">
+	<link rel="stylesheet" type="text/css" href="../css/common.css">
+	<link rel="stylesheet" type="text/css" href="../css/ui-base.css">
+	<style type="text/css">
+		html,body{
+			min-height: 100%;
+			min-width: 100%;
+			background-color: #eee;
+		}
+		/*菜单滚动插件-开始*/
+		#wrapper,#scroller,#scroller ul,#scroller li {
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+		#wrapper {
+			position: relative;
+			z-index: 1;
+			height: 44px;
+			width: 100%;
+			background: #fff;
+			overflow: hidden;
+			-ms-touch-action: none;
+		}
+
+		#scroller {
+			position: absolute;
+			z-index: 1;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			height: 44px;
+			-webkit-transform: translateZ(0);
+			-moz-transform: translateZ(0);
+			-ms-transform: translateZ(0);
+			-o-transform: translateZ(0);
+			transform: translateZ(0);
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			-webkit-text-size-adjust: none;
+			-moz-text-size-adjust: none;
+			-ms-text-size-adjust: none;
+			-o-text-size-adjust: none;
+			text-size-adjust: none;
+		}
+
+		#scroller ul {
+			list-style: none;
+			width: 100%;
+			padding: 0;
+			margin: 0;
+		}
+
+		#scroller li {
+			height: 44px;
+			float: left;
+			line-height: 44px;
+			background-color: #fff;
+			font-size: 14px;
+			overflow: hidden;
+			text-align: center;
+			color:#666;
+		}
+		/* 首个初始状态 */
+		#scroller li:first-child{
+			color:#cd937c;
+		}
+		/* 菜单滚动插件-结束 */
+		/* 菜单下滑线-开始 */
+		.mark{
+			position: absolute;
+			top:42px;
+			height: 3px;
+			background-color: #cd937c;
+			-webkit-transition: 300ms;
+		}
+		/* 菜单下滑线-结束 */
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="scroller" v-bind:style="{width:scrollerWidth+'px'}">
+			<ul>
+				<li class="nav" v-for="nav in navList" v-bind:style="{width:config.liWidth+'px'}" data-pos={{$index}} track-by="$index">{{nav}}</li>
+				<div class="mark" v-bind:style="{left:markLeft+'px',width:markWidth+'px'}"></div>
+			</ul>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src='../js/sea.js'></script>
+<script type="text/javascript">
+	var dependJS=['zepto.min','vue','../lib/iscroll/js/iscroll'];
+	seajs.use(dependJS,function(){
+		var vue=new Vue({
+			el:"#wrapper",
+			data:{
+				config:{
+					liWidth:"80",
+				},
+				navList:['全部','待确认','买料','生产','包装','全部1','待确认1','买料1','生产1','包装1'],
+				selectedIndex:'0',
+			},
+			computed:{
+				scrollerWidth:function(){
+					return this.config.liWidth*(this.navList.length)<320?320:this.config.liWidth*(this.navList.length)
+				},
+				markLeft:function(){
+					return this.config.liWidth/8;
+				},
+				markWidth:function(){
+					return (this.config.liWidth/8)*6;
+				}
+			},
+			methods:{
+				init:(function(){
+					/*菜单滑动配置-开始*/
+					setTimeout(function(){
+						var myScroll = new IScroll('#wrapper', { eventPassthrough: true, scrollX: true, scrollY: false, preventDefault: false });
+					},200)
+					//菜单点击，菜单下划线改变
+						$("#wrapper").on('tap','.nav',function(){
+							var tag=this;
+							//菜单自身偏移的值
+							var navOffsetLeft=Math.abs($(tag).offset().left);
+							//容器偏移的值
+							var scrollerOffsetLeft=Math.abs($('#scroller').offset().left);
+							// 容器的宽度
+							var navWidth=$(tag).width();
+							//总偏移的值
+							var offsetLeft=navOffsetLeft+scrollerOffsetLeft
+							//点击时按钮的序号
+							var navIndex=$(tag).attr('data-pos');
+							//下滑线偏移的值
+							var markOffset=offsetLeft+(navWidth/8);
+							//设置颜色
+							$('#wrapper li').css('color','#666');
+							$(this).css('color','#cd937c');
+							//改变偏移的值
+							$('.mark').css('left',markOffset);
+							//设置选择的菜单序号
+							vue._data.selectedIndex=navIndex;
+						})
+					/*菜单滑动配置-结束*/
+				})()
+			}
+		});
+	})
+</script>
+</html>
