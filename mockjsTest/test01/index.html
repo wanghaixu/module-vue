@@ -90,11 +90,11 @@
 	</style>
 </head>
 <body>
-<script src="../RAP_Mockjs.js" id="RAP_Mockjs" data-projectId="4285"></script>
+<script src="../js/RAP_Mockjs.js" id="RAP_Mockjs" data-projectId="4285"></script>
 	<script>
 		var postDataUrlHead='http://fz.ttdingwei.com/';
-		var postDataUrlBody='api/Public/login';
-		postDataUrlHead='';
+		var postDataUrlBody='api/personal/message_list2';
+		// postDataUrlHead='';
 		var postDataUrl=postDataUrlHead+postDataUrlBody;
 		window.onload=function(){
 			var stop=false;
@@ -106,7 +106,10 @@
 				if(!stop){
 					i++;
 					var postData={
-						id:'1'
+						language:1,
+						userName:'asd',
+						userPassword:'123',
+						pageNum:1
 					};
 					$.ajax({
 						type:'POST',
